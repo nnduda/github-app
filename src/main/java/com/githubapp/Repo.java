@@ -7,6 +7,6 @@ public class Repo {
 
     public String name;
     public boolean fork;
-    public String owner;
+    public Owner owner;
 
 }
