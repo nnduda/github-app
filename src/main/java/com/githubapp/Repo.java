@@ -8,5 +8,6 @@ public class Repo {
     public String name;
     public boolean fork;
     public Owner owner;
+    public Branch[] branches;
 
 }

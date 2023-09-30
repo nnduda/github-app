@@ -5,5 +5,5 @@ import lombok.Data;
 @Data
 public class Branch {
     public String name;
-    public Commit lastCommit;
+    public Commit commit;
 }

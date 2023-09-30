@@ -28,12 +28,18 @@ public class GitHubService {
 
     public List<Repo> getRepos(String username){
         Repo[] repos = restTemplate.getForObject(GITHUB_REPOS_URL, Repo[].class, username);
-        for(Repo repo: repos){
-            // TODO
-            // username powinien zawierac ownera danego brancha
-            // Commit nie jest mapowany bo ma zla nazwe pola
-            Branch[] branches = restTemplate.getForObject(GITHUB_BRANCH_URL, Branch[].class, username, repo.getName());
-            System.out.println(Arrays.deepToString(branches));
+        for(Repo repo : repos) {
+            if (repo.isFork() == false) {
+                if (!repo.getOwner().getLogin().equals(username)) {
+                    Branch[] branches = restTemplate.getForObject(GITHUB_BRANCH_URL, Branch[].class, repo.getOwner().getLogin(), repo.getName());
+                    repo.setBranches(branches);
+                    System.out.println(Arrays.deepToString(branches));
+                } else {
+                    Branch[] branches = restTemplate.getForObject(GITHUB_BRANCH_URL, Branch[].class, username, repo.getName());
+                    repo.setBranches(branches);
+                    System.out.println(Arrays.deepToString(branches));
+                }
+            }
         }
 
         return List.of(repos);
